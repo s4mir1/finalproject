@@ -26,10 +26,23 @@
         <h1>Habit Tracker</h1>
 
         <div class="form-group">
-    <input type="text" id="habit-name" placeholder="Enter habit name (e.g., Drink 8 glasses of water)">
-    <div class="error" id="habit-error"></div>
-</div>
-        
+             <input type="text" id="habit-name" placeholder="Enter habit name (e.g., Drink 8 glasses of water)">
+             <div class="error" id="habit-error"></div>
+        </div>
+
+        <div class="form-group">
+            <select id="habit-category">
+                 <option value="health">Health</option>
+                 <option value="fitness">Fitness</option>
+                 <option value="learning">Learning</option>
+                 <option value="productivity">Productivity</option>
+                 <option value="mindfulness">Mindfulness</option>
+                 <option value="other">Other</option>
+            </select>
+        </div>
+        <button class="btn" onclick="addHabit()">Add Habit</button>
+
+
 
     </div>
 
