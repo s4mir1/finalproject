@@ -41,3 +41,18 @@ function getCurrentPage() {
     
     return 'index'; // default
 }
+
+function initializeHomePage() {
+    console.log('Initializing Home Page...');
+    updateHomeStats();
+}
+
+function updateHomeStats() {
+    const totalHabitsEl = document.getElementById('total-habits');
+    const totalCompletionsEl = document.getElementById('total-completions');
+    const longestStreakEl = document.getElementById('longest-streak');
+    
+    if (totalHabitsEl) totalHabitsEl.textContent = habits.length;
+    if (totalCompletionsEl) totalCompletionsEl.textContent = habits.reduce((sum, habit) => sum + habit.totalCompletions, 0);
+    if (longestStreakEl) longestStreakEl.textContent = Math.max(0, ...habits.map(habit => habit.streak));
+}
