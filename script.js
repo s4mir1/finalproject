@@ -180,3 +180,48 @@ function renderHabits() {
         `;
     }).join('');
 }
+
+function markComplete(habitId) {
+    const habit = habits.find(h => h.id === habitId);
+    if (!habit) return;
+    
+    const today = new Date().toISOString().split('T')[0];
+    
+    if (habit.lastCompleted === today) {
+        alert('You already completed this habit today!');
+        return;
+    }
+    
+    habit.totalCompletions++;
+    habit.lastCompleted = today;
+    
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    const yesterdayStr = yesterday.toISOString().split('T')[0];
+    
+    if (habit.streak === 0 || habit.lastCompleted === yesterdayStr) {
+        habit.streak++;
+    } else {
+        const lastCompletedDate = new Date(habit.lastCompleted);
+        const daysDiff = Math.floor((new Date(today) - lastCompletedDate) / (1000 * 60 * 60 * 24));
+        
+        if (daysDiff === 1) {
+            habit.streak++;
+        } else {
+            habit.streak = 1;
+        }
+    }
+    
+    saveHabits();
+    renderHabits();
+    
+    const button = document.querySelector(`button[onclick="markComplete(${habitId})"]`);
+    if (button) {
+        const originalText = button.textContent;
+        button.textContent = '✓ Completed!';
+        button.style.backgroundColor = '#38a169';
+        setTimeout(() => {
+            renderHabits();
+        }, 1000);
+    }
+}
