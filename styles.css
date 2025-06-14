@@ -17,9 +17,7 @@ body {
     padding: 20px;
 }
 
-/* ========================================
-   HEADER & NAVIGATION STYLES
-   ======================================== */
+
 
 header {
     background: rgba(255, 255, 255, 0.95);
@@ -121,9 +119,7 @@ h1, h2 {
     background: linear-gradient(45deg, #e53e3e, #f56565);
 }
 
-* ========================================
-   FORM ELEMENTS & INPUTS
-   ======================================== */
+
 
 .form-group {
     margin-bottom: 20px;
@@ -187,3 +183,36 @@ input:focus, select:focus, textarea:focus {
     font-size: 14px;
     opacity: 0.9;
 }
+
+/* tracker page */
+
+.habit-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    gap: 15px;
+    align-items: end;
+    margin-bottom: 30px;
+}
+
+
+.habits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+
+.habit-card {
+    background: linear-gradient(135deg, #f7fafc, #edf2f7);
+    border-radius: 15px;
+    padding: 20px;
+    border: 2px solid #e2e8f0;
+    transition: all 0.3s ease;
+}
+
+.habit-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    border-color: #667eea;
+}
+
