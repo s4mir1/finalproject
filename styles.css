@@ -292,3 +292,15 @@ th {
 tr:hover {
     background: #f7fafc;
 }
+
+/* contact page */
+.contact-form {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
