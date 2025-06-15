@@ -225,3 +225,8 @@ function markComplete(habitId) {
         }, 1000);
     }
 }
+
+// about page
+function initializeAboutPage() {
+    console.log('Initializing About Page...');
+}
