@@ -20,10 +20,28 @@
             </ul>
         </nav>
     </header>
-    
+
     <main>
     <div class="page active">
         <h1>Analytics & Progress</h1>
+
+        <div class="filter-bar">
+             <select id="analytics-filter" onchange="filterAnalytics()">
+                <option value="all">All Categories</option>
+                <option value="health">Health</option>
+                <option value="fitness">Fitness</option>
+                <option value="learning">Learning</option>
+                <option value="productivity">Productivity</option>
+                <option value="mindfulness">Mindfulness</option>
+                <option value="other">Other</option>
+             </select>
+             <select id="sort-analytics" onchange="sortAnalytics()">
+                <option value="name">Sort by Name</option>
+                <option value="streak">Sort by Streak</option>
+                <option value="completions">Sort by Completions</option>
+                <option value="category">Sort by Category</option>
+             </select>
+        </div>
 
         <table id="analytics-table">
             <thead>
@@ -40,6 +58,7 @@
         </table>
     </div>
 </main>
-
+ </div>
+ <script src="script.js"></script>
 </body>
 </html>
