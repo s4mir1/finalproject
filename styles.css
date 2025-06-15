@@ -271,3 +271,24 @@ input:focus, select:focus, textarea:focus {
 .filter-bar select {
     max-width: 200px;
 }
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+th {
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    color: white;
+}
+
+tr:hover {
+    background: #f7fafc;
+}
