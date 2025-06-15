@@ -259,3 +259,15 @@ input:focus, select:focus, textarea:focus {
     display: flex;
     gap: 10px;
 }
+/* analytics page  */
+
+.filter-bar {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.filter-bar select {
+    max-width: 200px;
+}
