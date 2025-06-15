@@ -230,3 +230,66 @@ function markComplete(habitId) {
 function initializeAboutPage() {
     console.log('Initializing About Page...');
 }
+
+// analytics page
+function initializeAnalyticsPage() {
+    console.log('Initializing Analytics Page...');
+    renderAnalytics();
+}
+
+function renderAnalytics() {
+    const tbody = document.getElementById('analytics-tbody');
+    if (!tbody) return;
+    
+    let filteredHabits = [...habits];
+    
+   
+    const filterSelect = document.getElementById('analytics-filter');
+    const filterValue = filterSelect ? filterSelect.value : 'all';
+    if (filterValue !== 'all') {
+        filteredHabits = filteredHabits.filter(habit => habit.category === filterValue);
+    }
+    
+    
+    const sortSelect = document.getElementById('sort-analytics');
+    const sortValue = sortSelect ? sortSelect.value : 'name';
+    filteredHabits.sort((a, b) => {
+        switch (sortValue) {
+            case 'streak':
+                return b.streak - a.streak;
+            case 'completions':
+                return b.totalCompletions - a.totalCompletions;
+            case 'category':
+                return a.category.localeCompare(b.category);
+            default:
+                return a.name.localeCompare(b.name);
+        }
+    });
+    
+    if (filteredHabits.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: #666; font-style: italic; padding: 40px;">No habits to display</td></tr>';
+        return;
+    }
+    
+    tbody.innerHTML = filteredHabits.map(habit => `
+        <tr>
+            <td>${escapeHtml(habit.name)}</td>
+            <td style="text-transform: capitalize;">${habit.category}</td>
+            <td>
+                <span style="background: linear-gradient(45deg, #667eea, #764ba2); color: white; padding: 2px 8px; border-radius: 12px; font-size: 12px;">
+                    ${habit.streak} days
+                </span>
+            </td>
+            <td>${habit.totalCompletions}</td>
+            <td>${formatDate(habit.createdDate)}</td>
+        </tr>
+    `).join('');
+}
+
+function filterAnalytics() {
+    renderAnalytics();
+}
+
+function sortAnalytics() {
+    renderAnalytics();
+}
