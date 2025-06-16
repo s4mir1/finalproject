@@ -304,3 +304,44 @@ tr:hover {
     grid-template-columns: 1fr 1fr;
     gap: 20px;
 }
+
+@media (max-width: 768px) {
+    /* General Container */
+    .container {
+        padding: 10px;
+    }
+    
+    /* Navigation */
+    nav ul {
+        gap: 10px;
+    }
+    
+    nav a {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+    
+    /* Habit Tracker Page */
+    .habit-form {
+        grid-template-columns: 1fr;
+    }
+    
+    .habits-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    /* Analytics Page */
+    .filter-bar {
+        flex-direction: column;
+    }
+    
+    /* Home Page */
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    /* Contact Page */
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+}
