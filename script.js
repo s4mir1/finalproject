@@ -293,3 +293,64 @@ function filterAnalytics() {
 function sortAnalytics() {
     renderAnalytics();
 }
+
+function initializeContactPage() {
+    console.log('Initializing Contact Page...');
+    setupContactForm();
+}
+
+function setupContactForm() {
+    const contactForm = document.getElementById('contact-form');
+    if (!contactForm) return;
+    
+    contactForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const name = document.getElementById('contact-name').value.trim();
+        const email = document.getElementById('contact-email').value.trim();
+        const subject = document.getElementById('contact-subject').value;
+        const message = document.getElementById('contact-message').value.trim();
+        
+        // Clear previous errors
+        document.querySelectorAll('.error').forEach(error => error.textContent = '');
+        
+        let isValid = true;
+        
+        // Validation
+        if (!name || name.length < 2) {
+            const nameError = document.getElementById('name-error');
+            if (nameError) {
+                nameError.textContent = 'Please enter a valid name (at least 2 characters)';
+                isValid = false;
+            }
+        }
+        
+        if (!email || !isValidEmail(email)) {
+            const emailError = document.getElementById('email-error');
+            if (emailError) {
+                emailError.textContent = 'Please enter a valid email address';
+                isValid = false;
+            }
+        }
+        
+        if (!subject) {
+            const subjectError = document.getElementById('subject-error');
+            if (subjectError) {
+                subjectError.textContent = 'Please select a subject';
+                isValid = false;
+            }
+        }
+        
+        if (!message || message.length < 10) {
+            const messageError = document.getElementById('message-error');
+            if (messageError) {
+                messageError.textContent = 'Please enter a message (at least 10 characters)';
+                isValid = false;
+            }
+        }
+        
+        if (isValid) {
+            handleContactFormSubmission(name, email, subject, message);
+        }
+    });
+}
