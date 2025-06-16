@@ -469,3 +469,10 @@ function loadSampleData() {
     ];
     saveHabits();
 }
+
+
+window.addHabit = addHabit;
+window.markComplete = markComplete;
+window.deleteHabit = deleteHabit;
+window.filterAnalytics = filterAnalytics;
+window.sortAnalytics = sortAnalytics;
