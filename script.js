@@ -392,3 +392,80 @@ function formatDate(dateString) {
         day: 'numeric'
     });
 }
+
+function saveHabits() {
+    try {
+        localStorage.setItem('habitflow_habits', JSON.stringify(habits));
+        console.log('Habits saved to localStorage');
+    } catch (error) {
+        console.warn('Unable to save to localStorage:', error);
+        
+    }
+}
+
+function loadHabits() {
+    try {
+        const saved = localStorage.getItem('habitflow_habits');
+        if (saved) {
+            habits = JSON.parse(saved);
+            
+            
+            habits = habits.filter(habit => 
+                habit && 
+                typeof habit.id !== 'undefined' && 
+                typeof habit.name === 'string' && 
+                typeof habit.category === 'string'
+            );
+            
+            
+            habits.forEach(habit => {
+                if (!habit.streak) habit.streak = 0;
+                if (!habit.totalCompletions) habit.totalCompletions = 0;
+                if (!habit.createdDate) habit.createdDate = new Date().toISOString().split('T')[0];
+            });
+            
+            console.log('Habits loaded from localStorage:', habits.length, 'habits');
+        } else {
+            
+            loadSampleData();
+        }
+    } catch (error) {
+        console.warn('Unable to load from localStorage:', error);
+       
+        loadSampleData();
+    }
+}
+
+function loadSampleData() {
+    console.log('Loading sample data for first-time users...');
+    habits = [
+        {
+            id: 1,
+            name: "Drink 8 glasses of water",
+            category: "health",
+            streak: 5,
+            totalCompletions: 12,
+            lastCompleted: "2025-06-12",
+            createdDate: "2025-06-01"
+        },
+        {
+            id: 2,
+            name: "Exercise for 30 minutes",
+            category: "fitness",
+            streak: 3,
+            totalCompletions: 8,
+            lastCompleted: "2025-06-12",
+            createdDate: "2025-06-05"
+        },
+        {
+            id: 3,
+            name: "Read for 20 minutes",
+            category: "learning",
+            streak: 2,
+            totalCompletions: 5,
+            lastCompleted: "2025-06-12",
+            createdDate: "2025-06-08"
+        }
+    ];
+    saveHabits();
+}
