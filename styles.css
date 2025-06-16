@@ -1,4 +1,6 @@
- {
+
+
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -82,8 +84,9 @@ nav a:hover, nav a.active {
 h1, h2 {
     color: #4a5568;
     margin-bottom: 20px;
+}
 
-    .btn {
+.btn {
     background: linear-gradient(45deg, #667eea, #764ba2);
     color: white;
     border: none;
@@ -158,6 +161,8 @@ input:focus, select:focus, textarea:focus {
     margin-top: 5px;
 }
 
+/* HOME PAGE  */
+
 .stats-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -184,7 +189,8 @@ input:focus, select:focus, textarea:focus {
     opacity: 0.9;
 }
 
-/* tracker page */
+/*  HABIT TRACKER PAGE */
+
 
 .habit-form {
     display: grid;
@@ -259,8 +265,12 @@ input:focus, select:focus, textarea:focus {
     display: flex;
     gap: 10px;
 }
-/* analytics page  */
 
+
+
+/*   ANALYTICS PAGE */
+
+/* Filter Bar for Analytics */
 .filter-bar {
     display: flex;
     gap: 15px;
@@ -293,7 +303,8 @@ tr:hover {
     background: #f7fafc;
 }
 
-/* contact page */
+/*  CONTACT PAGE */
+
 .contact-form {
     max-width: 600px;
     margin: 0 auto;
@@ -304,6 +315,8 @@ tr:hover {
     grid-template-columns: 1fr 1fr;
     gap: 20px;
 }
+
+/* RESPONSIVE DESIGN */
 
 @media (max-width: 768px) {
     /* General Container */

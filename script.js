@@ -2,12 +2,9 @@
 
 let habits = [];
 
-
-
 document.addEventListener('DOMContentLoaded', function() {
     loadHabits();
     
-  
     const currentPage = getCurrentPage();
     
     switch(currentPage) {
@@ -29,6 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+// Utility function to get current page
 function getCurrentPage() {
     const path = window.location.pathname;
     const page = path.split('/').pop();
@@ -42,6 +40,7 @@ function getCurrentPage() {
     return 'index'; // default
 }
 
+// home function
 function initializeHomePage() {
     console.log('Initializing Home Page...');
     updateHomeStats();
@@ -56,6 +55,7 @@ function updateHomeStats() {
     if (totalCompletionsEl) totalCompletionsEl.textContent = habits.reduce((sum, habit) => sum + habit.totalCompletions, 0);
     if (longestStreakEl) longestStreakEl.textContent = Math.max(0, ...habits.map(habit => habit.streak));
 }
+//  HABIT TRACKER PAGE
 
 function initializeTrackerPage() {
     console.log('Initializing Tracker Page...');
@@ -72,8 +72,10 @@ function addHabit() {
     const name = nameInput.value.trim();
     const category = categorySelect.value;
     
+   
     if (errorDiv) errorDiv.textContent = '';
     
+ 
     if (!name) {
         if (errorDiv) errorDiv.textContent = 'Please enter a habit name';
         return;
@@ -89,6 +91,7 @@ function addHabit() {
         return;
     }
     
+   
     const newHabit = {
         id: Date.now(),
         name: name,
@@ -101,8 +104,13 @@ function addHabit() {
     
     habits.push(newHabit);
     saveHabits();
+    
+   
     nameInput.value = '';
+    
+   
     renderHabits();
+    
     
     if (errorDiv) {
         errorDiv.className = 'success';
@@ -114,12 +122,61 @@ function addHabit() {
     }
 }
 
+function markComplete(habitId) {
+    const habit = habits.find(h => h.id === habitId);
+    if (!habit) return;
+    
+    const today = new Date().toISOString().split('T')[0];
+    
+    if (habit.lastCompleted === today) {
+        alert('You already completed this habit today!');
+        return;
+    }
+    
+    habit.totalCompletions++;
+    habit.lastCompleted = today;
+    
+   
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    const yesterdayStr = yesterday.toISOString().split('T')[0];
+    
+    if (habit.streak === 0 || habit.lastCompleted === yesterdayStr) {
+        habit.streak++;
+    } else {
+       
+        const lastCompletedDate = new Date(habit.lastCompleted);
+        const daysDiff = Math.floor((new Date(today) - lastCompletedDate) / (1000 * 60 * 60 * 24));
+        
+        if (daysDiff === 1) {
+            habit.streak++;
+        } else {
+            habit.streak = 1; 
+        }
+    }
+    
+    saveHabits();
+    renderHabits();
+    
+    
+    const button = document.querySelector(`button[onclick="markComplete(${habitId})"]`);
+    if (button) {
+        const originalText = button.textContent;
+        button.textContent = '✓ Completed!';
+        button.style.backgroundColor = '#38a169';
+        setTimeout(() => {
+            renderHabits(); 
+        }, 1000);
+    }
+}
+
 function deleteHabit(habitId) {
     if (confirm('Are you sure you want to delete this habit? This action cannot be undone.')) {
         habits = habits.filter(h => h.id !== habitId);
         saveHabits();
         renderHabits();
         
+       
         if (getCurrentPage() === 'analytics') {
             renderAnalytics();
         }
@@ -181,57 +238,15 @@ function renderHabits() {
     }).join('');
 }
 
-function markComplete(habitId) {
-    const habit = habits.find(h => h.id === habitId);
-    if (!habit) return;
-    
-    const today = new Date().toISOString().split('T')[0];
-    
-    if (habit.lastCompleted === today) {
-        alert('You already completed this habit today!');
-        return;
-    }
-    
-    habit.totalCompletions++;
-    habit.lastCompleted = today;
-    
-    const yesterday = new Date();
-    yesterday.setDate(yesterday.getDate() - 1);
-    const yesterdayStr = yesterday.toISOString().split('T')[0];
-    
-    if (habit.streak === 0 || habit.lastCompleted === yesterdayStr) {
-        habit.streak++;
-    } else {
-        const lastCompletedDate = new Date(habit.lastCompleted);
-        const daysDiff = Math.floor((new Date(today) - lastCompletedDate) / (1000 * 60 * 60 * 24));
-        
-        if (daysDiff === 1) {
-            habit.streak++;
-        } else {
-            habit.streak = 1;
-        }
-    }
-    
-    saveHabits();
-    renderHabits();
-    
-    const button = document.querySelector(`button[onclick="markComplete(${habitId})"]`);
-    if (button) {
-        const originalText = button.textContent;
-        button.textContent = '✓ Completed!';
-        button.style.backgroundColor = '#38a169';
-        setTimeout(() => {
-            renderHabits();
-        }, 1000);
-    }
-}
-
-// about page
+// ABOUT PAGE
 function initializeAboutPage() {
     console.log('Initializing About Page...');
+   
 }
 
-// analytics page
+//  ANALYTICS PAGE
+
+
 function initializeAnalyticsPage() {
     console.log('Initializing Analytics Page...');
     renderAnalytics();
@@ -250,7 +265,7 @@ function renderAnalytics() {
         filteredHabits = filteredHabits.filter(habit => habit.category === filterValue);
     }
     
-    
+   
     const sortSelect = document.getElementById('sort-analytics');
     const sortValue = sortSelect ? sortSelect.value : 'name';
     filteredHabits.sort((a, b) => {
@@ -294,6 +309,8 @@ function sortAnalytics() {
     renderAnalytics();
 }
 
+//  CONTACT PAGE
+
 function initializeContactPage() {
     console.log('Initializing Contact Page...');
     setupContactForm();
@@ -311,12 +328,12 @@ function setupContactForm() {
         const subject = document.getElementById('contact-subject').value;
         const message = document.getElementById('contact-message').value.trim();
         
-        // Clear previous errors
+       
         document.querySelectorAll('.error').forEach(error => error.textContent = '');
         
         let isValid = true;
         
-        // Validation
+       
         if (!name || name.length < 2) {
             const nameError = document.getElementById('name-error');
             if (nameError) {
@@ -356,7 +373,7 @@ function setupContactForm() {
 }
 
 function handleContactFormSubmission(name, email, subject, message) {
-    // Simulate form submission
+    
     const statusDiv = document.getElementById('form-status');
     if (statusDiv) {
         statusDiv.innerHTML = '<div class="success">✓ Thank you for your message! We\'ll get back to you soon.</div>';
@@ -373,6 +390,8 @@ function handleContactFormSubmission(name, email, subject, message) {
     // Log form data (in real app, this would be sent to server)
     console.log('Contact Form Submitted:', { name, email, subject, message });
 }
+
+//   UTILITY FUNCTIONS
 
 function isValidEmail(email) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -393,13 +412,15 @@ function formatDate(dateString) {
     });
 }
 
+//   DATA PERSISTENCE FUNCTIONS
+
 function saveHabits() {
     try {
         localStorage.setItem('habitflow_habits', JSON.stringify(habits));
         console.log('Habits saved to localStorage');
     } catch (error) {
         console.warn('Unable to save to localStorage:', error);
-        
+        // Fallback: keep data in memory for the session
     }
 }
 
@@ -409,7 +430,7 @@ function loadHabits() {
         if (saved) {
             habits = JSON.parse(saved);
             
-            
+            // Validate and clean up data
             habits = habits.filter(habit => 
                 habit && 
                 typeof habit.id !== 'undefined' && 
@@ -417,7 +438,7 @@ function loadHabits() {
                 typeof habit.category === 'string'
             );
             
-            
+            // Ensure all habits have required properties
             habits.forEach(habit => {
                 if (!habit.streak) habit.streak = 0;
                 if (!habit.totalCompletions) habit.totalCompletions = 0;
@@ -426,12 +447,12 @@ function loadHabits() {
             
             console.log('Habits loaded from localStorage:', habits.length, 'habits');
         } else {
-            
+            // Load sample data for first-time users
             loadSampleData();
         }
     } catch (error) {
         console.warn('Unable to load from localStorage:', error);
-       
+        // Fallback to sample data
         loadSampleData();
     }
 }
@@ -470,12 +491,16 @@ function loadSampleData() {
     saveHabits();
 }
 
+//   GLOBAL FUNCTION EXPORTS
+
 
 window.addHabit = addHabit;
 window.markComplete = markComplete;
 window.deleteHabit = deleteHabit;
 window.filterAnalytics = filterAnalytics;
 window.sortAnalytics = sortAnalytics;
+
+//   DEBUG & DEVELOPMENT HELPERS
 
 
 // Function to clear all data (useful for testing)
