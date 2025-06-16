@@ -354,3 +354,23 @@ function setupContactForm() {
         }
     });
 }
+
+function handleContactFormSubmission(name, email, subject, message) {
+    // Simulate form submission
+    const statusDiv = document.getElementById('form-status');
+    if (statusDiv) {
+        statusDiv.innerHTML = '<div class="success">✓ Thank you for your message! We\'ll get back to you soon.</div>';
+    }
+    
+    // Reset form
+    document.getElementById('contact-form').reset();
+    
+    // Clear success message after 5 seconds
+    setTimeout(() => {
+        if (statusDiv) statusDiv.innerHTML = '';
+    }, 5000);
+    
+    // Log form data (in real app, this would be sent to server)
+    console.log('Contact Form Submitted:', { name, email, subject, message });
+}
+
