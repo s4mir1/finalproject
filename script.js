@@ -476,3 +476,29 @@ window.markComplete = markComplete;
 window.deleteHabit = deleteHabit;
 window.filterAnalytics = filterAnalytics;
 window.sortAnalytics = sortAnalytics;
+
+
+// Function to clear all data (useful for testing)
+window.clearAllData = function() {
+    if (confirm('Are you sure you want to clear all habit data? This cannot be undone.')) {
+        localStorage.removeItem('habitflow_habits');
+        habits = [];
+        console.log('All data cleared');
+        location.reload();
+    }
+};
+
+// Function to export habits data (useful for backup)
+window.exportHabits = function() {
+    const dataStr = JSON.stringify(habits, null, 2);
+    const blob = new Blob([dataStr], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'habitflow_backup.json';
+    link.click();
+    URL.revokeObjectURL(url);
+    console.log('Habits data exported');
+};
+
+console.log('HabitFlow JavaScript initialized successfully!');
